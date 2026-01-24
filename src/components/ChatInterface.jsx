@@ -1003,8 +1003,8 @@ const ChatInterface = ({ user, onLogout, onOpenNotes, onOpenProfile }) => {
     
     if (chineseVoice) utterance.voice = chineseVoice;
     utterance.lang = 'zh-CN';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.2;
+    utterance.rate = 1.0;  // 正常语速
+    utterance.pitch = 1.0; // 正常音调，自然女声
 
     utterance.onend = () => {
       // 朗读完成，重置发送标记，继续监听
@@ -1238,8 +1238,8 @@ const ChatInterface = ({ user, onLogout, onOpenNotes, onOpenProfile }) => {
     }
     
     utterance.lang = 'zh-CN';
-    utterance.rate = 1.0; // 语速
-    utterance.pitch = 1.2; // 稍微提高音调，听起来更可爱
+    utterance.rate = 1.0;  // 正常语速
+    utterance.pitch = 1.0; // 正常音调，自然女声
     
     utterance.onstart = () => setSpeakingIndex(index);
     utterance.onend = () => setSpeakingIndex(null);
