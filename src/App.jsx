@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import LoginForm from './components/LoginForm';
 import ChatInterface from './components/ChatInterface';
 import NotesManager from './components/NotesManager';
+import UserProfile from './components/UserProfile';
 import { getUser, clearAuth, getToken } from './utils/auth';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState('chat'); // 'chat' | 'notes'
+  const [currentView, setCurrentView] = useState('chat'); // 'chat' | 'notes' | 'profile'
 
   // Check for existing auth on mount
   useEffect(() => {
@@ -33,8 +34,16 @@ export default function App() {
     setCurrentView('notes');
   };
 
+  const handleOpenProfile = () => {
+    setCurrentView('profile');
+  };
+
   const handleBackToChat = () => {
     setCurrentView('chat');
+  };
+
+  const handleUserUpdate = (updatedUser) => {
+    setCurrentUser(updatedUser);
   };
 
   // Show loading state
@@ -56,13 +65,24 @@ export default function App() {
   // If logged in
   if (currentUser) {
     if (currentView === 'notes') {
-      return <NotesManager user={currentUser} onBack={handleBackToChat} />;
+      return <NotesManager user={currentUser} onBack={handleBackToChat} onOpenProfile={handleOpenProfile} />;
+    }
+    if (currentView === 'profile') {
+      return (
+        <UserProfile 
+          user={currentUser} 
+          onBack={handleBackToChat}
+          onLogout={handleLogout}
+          onUserUpdate={handleUserUpdate}
+        />
+      );
     }
     return (
       <ChatInterface 
         user={currentUser} 
         onLogout={handleLogout} 
         onOpenNotes={handleOpenNotes}
+        onOpenProfile={handleOpenProfile}
       />
     );
   }
